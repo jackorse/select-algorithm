@@ -3,10 +3,10 @@
 
 #define GROUP_SIZE 5
 
-typedef struct
+typedef struct int_p
 {
   int value;
-  int *ptr;
+  struct int_p *ptr;
 } int_ptr;
 
 /**
@@ -22,12 +22,12 @@ int compare_ints(const void *a, const void *b)
   return (arg1.value > arg2.value) - (arg1.value < arg2.value);
 }
 
-int_ptr median(int_ptr *A, int size)
+int median(int_ptr *A, int size)
 { // constant time (propio)
   if (size == 0)
     size = GROUP_SIZE;
-  qsort(A, size, sizeof(int), compare_ints);
-  return A[(size - 1) / 2];
+  qsort(A, size, sizeof(int_ptr), compare_ints);
+  return (size - 1) / 2;
 }
 
 void swap(int_ptr *a, int_ptr *b)
@@ -46,7 +46,7 @@ int partition(int_ptr *A, int n)
     if (A[j].value <= x)
     {
       k++;
-      swap(&A[k], &A[j]);
+      swap(A + k, A + j);
     }
   }
   swap(A, A + k);
@@ -65,9 +65,17 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
   for (int j = 0; j < num_groups; j++)
   {
     if (j == num_groups - 1)
-      medians[j] = median(A + (j * GROUP_SIZE), n % GROUP_SIZE);
+    {
+      int _x = median(A + (j * GROUP_SIZE), n % GROUP_SIZE);
+      medians[j].value = A[(j * GROUP_SIZE) + _x].value;
+      medians[j].ptr = A + (j * GROUP_SIZE) + _x;
+    }
     else
-      medians[j] = median(A + (j * GROUP_SIZE), 0);
+    {
+      int _x = median(A + (j * GROUP_SIZE), 0);
+      medians[j].value = A[(j * GROUP_SIZE) + _x].value;
+      medians[j].ptr = A + (j * GROUP_SIZE) + _x;
+    }
   }
 
   int_ptr median_of_medians = select_algorithm(medians, (num_groups - 1) / 2, num_groups);
@@ -81,26 +89,26 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
   //   }
   // }
 
-  swap(A, &median_of_medians);
+  swap(A, median_of_medians.ptr);
 
   // position of the pivot after partition
   int k = partition(A, n);
 
   if (i == k)
-    return median_of_medians;
+    return *median_of_medians.ptr;
   else if (i < k)
-    return select_algorithm(A, i, k + 1);
+    return select_algorithm(A, i, k);
   else
-    return select_algorithm(A + k, i - k, n - k);
+    return select_algorithm(A + k + 1, i - k, n - k - 1);
 }
 
 int selection(int *A, int i, int n)
 {
   int_ptr A_ptr[n];
 
-  for (int j = 0; j < i; j++)
+  for (int j = 0; j < n; j++)
   {
-    A_ptr[j].ptr = A + j;
+    A_ptr[j].ptr = NULL; // A + j;
     A_ptr[j].value = A[j];
   }
 
@@ -112,6 +120,6 @@ int selection(int *A, int i, int n)
 int main()
 {
   int v[] = {7, 2, 4, 3, 5, 4, 6, 8, 9, 5};
-  printf("Res %d\n", selection(v, 2, 10));
+  printf("Res %d\n", selection(v, 5, 10));
   return 0;
 }
