@@ -95,11 +95,11 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
   int k = partition(A, n);
 
   if (i == k)
-    return *median_of_medians.ptr;
+    return A[k];
   else if (i < k)
     return select_algorithm(A, i, k);
   else
-    return select_algorithm(A + k + 1, i - k, n - k - 1);
+    return select_algorithm(A + k + 1, i - k - 1, n - k - 1);
 }
 
 int selection(int *A, int i, int n)
@@ -120,6 +120,10 @@ int selection(int *A, int i, int n)
 int main()
 {
   int v[] = {7, 2, 4, 3, 5, 4, 6, 8, 9, 5};
-  printf("Res %d\n", selection(v, 5, 10));
+  // 2,3,4,4,5,5,6,7,8,9,
+  for (int i = 0; i < 10; i++)
+  {
+    printf("i = %d -> %d\n", i, selection(v, i, 10));
+  }
   return 0;
 }
