@@ -14,7 +14,7 @@ typedef struct int_p
  *         0 if arg1 = arg2
  *        -1 if arg1 < arg2
  */
-int compare_ints(const void *a, const void *b)
+int compare_int_ptr(const void *a, const void *b)
 {
   int_ptr arg1 = *(const int_ptr *)a;
   int_ptr arg2 = *(const int_ptr *)b;
@@ -26,7 +26,7 @@ int median(int_ptr *A, int size)
 { // constant time (propio)
   if (size == 0)
     size = GROUP_SIZE;
-  qsort(A, size, sizeof(int_ptr), compare_ints);
+  qsort(A, size, sizeof(int_ptr), compare_int_ptr);
   return (size - 1) / 2;
 }
 

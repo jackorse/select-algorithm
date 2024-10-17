@@ -2,6 +2,15 @@
 
 #define TEST_SIZE 1000
 #define MAX_NUMBER 10000
+
+int compare_ints(const void *a, const void *b)
+{
+  int arg1 = *(const int *)a;
+  int arg2 = *(const int *)b;
+
+  return (arg1 > arg2) - (arg1 < arg2);
+}
+
 int main()
 {
   int v[] = {7, 2, 4, 3, 5, 4, 6, 8, 9, 5};
