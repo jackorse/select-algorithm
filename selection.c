@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "selection.h"
 
-#define GROUP_SIZE 5
 
 typedef struct int_p
 {
@@ -115,15 +115,4 @@ int selection(int *A, int i, int n)
   int_ptr res = select_algorithm(A_ptr, i, n);
 
   return res.value;
-}
-
-int main()
-{
-  int v[] = {7, 2, 4, 3, 5, 4, 6, 8, 9, 5};
-  // 2,3,4,4,5,5,6,7,8,9,
-  for (int i = 0; i < 10; i++)
-  {
-    printf("i = %d -> %d\n", i, selection(v, i, 10));
-  }
-  return 0;
 }
