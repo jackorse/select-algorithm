@@ -21,7 +21,6 @@ static void BM_Selection(benchmark::State& state) {
 
 // Register the function as a benchmark
 BENCHMARK(BM_Selection)
-    ->benchmark_min_time(3)
     ->RangeMultiplier(2)
     ->Range(1<<2, 1<<24)
     ->Complexity();
@@ -45,7 +44,6 @@ static void BM_Rand_Selection(benchmark::State& state) {
 }
 // Register the function as a benchmark
 BENCHMARK(BM_Rand_Selection)
-    ->benchmark_min_time(3)
     ->RangeMultiplier(2)
     ->Range(1<<2, 1<<24)
     ->Complexity();
