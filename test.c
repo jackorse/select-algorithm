@@ -8,7 +8,11 @@ int compare_ints(const void *a, const void *b)
   int arg1 = *(const int *)a;
   int arg2 = *(const int *)b;
 
-  return (arg1 > arg2) - (arg1 < arg2);
+  if (arg1 < arg2)
+    return -1;
+  if (arg1 > arg2)
+    return 1;
+  return 0;
 }
 
 int main()
@@ -23,6 +27,7 @@ int main()
   int test_original[TEST_SIZE];
   int test[TEST_SIZE];
   int test_rand[TEST_SIZE];
+  int test_qsort[TEST_SIZE];
   int test_sorted[TEST_SIZE];
   for (int i = 0; i < TEST_SIZE; i++)
   {
@@ -38,12 +43,14 @@ int main()
     {
       test[j] = test_original[j];
       test_rand[j] = test_original[j];
+      test_qsort[j] = test_original[j];      
     }
 
     int res = selection(test, i, TEST_SIZE);
     int res_rand = rand_selection(test_rand, i, TEST_SIZE);
-    int res_qsort = test_sorted[i];
-    if (res != res_qsort || res_rand != res_qsort)
+    int res_qsort = rand_selection(test_qsort, i, TEST_SIZE);
+    int res_ref = test_sorted[i];
+    if (res != res_ref || res_rand != res_ref || res_qsort != res_ref)
     {
       printf("KO");
       return -1;

@@ -32,6 +32,19 @@ int compare_int_ptr(const void *a, const void *b)
   return 0;
 }
 
+
+int compare_int(const void *a, const void *b)
+{
+  int arg1 = *(const int *)a;
+  int arg2 = *(const int *)b;
+
+  if (arg1 < arg2)
+    return -1;
+  if (arg1 > arg2)
+    return 1;
+  return 0;
+}
+
 /**
  * Returns the median of an array of int_ptr
  *
@@ -246,4 +259,10 @@ int rand_selection(int *A, int i, int n)
   int_ptr res = rand_select_algorithm(A_ptr, i, n);
 
   return res.value;
+}
+
+int qsort_selection(int *A, int i, int n)
+{
+  qsort(A, n, sizeof(int), compare_int);
+  return A[i];
 }

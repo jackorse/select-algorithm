@@ -5,3 +5,4 @@
 
 int selection(int *A, int i, int n);
 int rand_selection(int *A, int i, int n);
+int qsort_selection(int *A, int i, int n);
