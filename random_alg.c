@@ -28,22 +28,6 @@ int compare_int_ptr(const void *a, const void *b)
   return (arg1.value > arg2.value) - (arg1.value < arg2.value);
 }
 
-/**
- * Returns the median of an array of int_ptr
- *
- * @param A: array of int_ptr
- * @param size: number of elements in the array
- *
- * @return the position of the median in the array
- */
-int median(int_ptr *A, int size)
-{ // constant time (propio)
-  if (size == 0)
-    size = GROUP_SIZE;
-  qsort(A, size, sizeof(int_ptr), compare_int_ptr);
-  return (size - 1) / 2;
-}
-
 void swap(int_ptr *a, int_ptr *b)
 {
   int_ptr tmp = *a;
@@ -100,11 +84,11 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
     else
       return (int_ptr){.value = -1, .ptr = NULL};
 
-  // Move the median of medians to the first position
+  // Move the a random number of the array to the first position
   swap(A, A[rand()%n]);
 
-  // Partition the array around the median of medians,
-  // and get the position of the median of medians (pivot)
+  // Partition the array around the random number we choose,
+  // and get the position of the pivot
   int k = partition(A, n);
 
   // If the pivot is the i-th element, return it,
