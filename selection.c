@@ -2,6 +2,10 @@
 #include <stdlib.h>
 #include "selection.h"
 
+/**
+ * We needed to store the values of the elements in the original array, together with their relative offset in it.
+ * To access them just use A[val.ptr - A], where val.ptr is the memory address of the integer and A is the array in which is stored. 
+ */
 typedef struct int_p
 {
   int value;
@@ -51,6 +55,10 @@ void swap(int_ptr *a, int_ptr *b)
 
 /**
  * Partitions the array around the first element (pivot)
+ * After being partitioned the array will look like:
+ * A = {less, p, more} 
+ *      less = all the elements in A <= than p
+ *      more = all the elements in A  > than p
  *
  * @param A: array of int_ptr
  * @param n: number of elements in the array
