@@ -25,7 +25,11 @@ int compare_int_ptr(const void *a, const void *b)
   int_ptr arg1 = *(const int_ptr *)a;
   int_ptr arg2 = *(const int_ptr *)b;
 
-  return (arg1.value > arg2.value) - (arg1.value < arg2.value);
+  if (arg1.value < arg2.value)
+    return -1;
+  if (arg1.value > arg2.value)
+    return 1;
+  return 0;
 }
 
 /**
@@ -36,12 +40,13 @@ int compare_int_ptr(const void *a, const void *b)
  *
  * @return the position of the median in the array
  */
-int median(int_ptr *A, int size)
+int_ptr median(int_ptr *A, int size)
 { // constant time (propio)
   if (size == 0)
     size = GROUP_SIZE;
   qsort(A, size, sizeof(int_ptr), compare_int_ptr);
-  return (size - 1) / 2;
+  const int offset = (size - 1) / 2;
+  return (int_ptr){.value = A[offset].value, .ptr = A + offset};
 }
 
 void swap(int_ptr *a, int_ptr *b)
@@ -95,32 +100,23 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
   // Base case: if n = 1 and i = 0, return the only element
   //            if n = 1 and i != 0, something went wrong, return -1
   if (n == 1)
+  {
     if (i == 0)
       return A[0];
     else
       return (int_ptr){.value = -1, .ptr = NULL};
-
+  }
   // Divide the array into groups of GROUP_SIZE elements,
   // last group may have less than GROUP_SIZE elements
   const int num_groups = n / GROUP_SIZE + (n % GROUP_SIZE == 0 ? 0 : 1);
 
   // Find the medians of each group
   int_ptr medians[num_groups];
-  for (int j = 0; j < num_groups; j++)
+  for (int j = 0; j < num_groups - 1; j++)
   {
-    if (j == num_groups - 1)
-    {
-      int _x = median(A + (j * GROUP_SIZE), n % GROUP_SIZE);
-      medians[j].value = A[(j * GROUP_SIZE) + _x].value;
-      medians[j].ptr = A + (j * GROUP_SIZE) + _x;
-    }
-    else
-    {
-      int _x = median(A + (j * GROUP_SIZE), 0);
-      medians[j].value = A[(j * GROUP_SIZE) + _x].value;
-      medians[j].ptr = A + (j * GROUP_SIZE) + _x;
-    }
+    medians[j] = median(A + (j * GROUP_SIZE), 0);
   }
+  medians[num_groups - 1] = median(A + ((num_groups - 1) * GROUP_SIZE), n % GROUP_SIZE);
 
   // Recursively find the median of medians
   int_ptr median_of_medians = select_algorithm(medians, (num_groups - 1) / 2, num_groups);
