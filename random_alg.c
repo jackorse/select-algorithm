@@ -85,7 +85,7 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
       return (int_ptr){.value = -1, .ptr = NULL};
 
   // Move the a random number of the array to the first position
-  swap(A, A[rand()%n]);
+  swap(A, &A[rand()%n]);
 
   // Partition the array around the random number we choose,
   // and get the position of the pivot
