@@ -2,7 +2,7 @@
 
 /**
  * We needed to store the values of the elements in the original array, together with their relative offset in it.
- * To access them just use A[val.ptr - A], where val.ptr is the memory address of the integer and A is the array in which is stored. 
+ * To access them just use A[val.ptr - A], where val.ptr is the memory address of the integer and A is the array in which is stored.
  */
 typedef struct int_p
 {
@@ -59,7 +59,7 @@ void swap(int_ptr *a, int_ptr *b)
 /**
  * Partitions the array around the first element (pivot)
  * After being partitioned the array will look like:
- * A = {less, p, more} 
+ * A = {less, p, more}
  *      less = all the elements in A <= than p
  *      more = all the elements in A  > than p
  *
@@ -138,8 +138,6 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
     return select_algorithm(A + k + 1, i - k - 1, n - k - 1);
 }
 
-
-
 /**
  * Recursive function to find the i-th smallest element in an array
  *
@@ -156,13 +154,15 @@ int_ptr rand_select_algorithm(int_ptr *A, int i, int n)
   // Base case: if n = 1 and i = 0, return the only element
   //            if n = 1 and i != 0, something went wrong, return -1
   if (n == 1)
+  {
     if (i == 0)
       return A[0];
     else
       return (int_ptr){.value = -1, .ptr = NULL};
-
+  }
+  
   // Move the a random number of the array to the first position
-  swap(A, &A[rand()%n]);
+  swap(A, &A[rand() % n]);
 
   // Partition the array around the random number we choose,
   // and get the position of the pivot
@@ -177,7 +177,6 @@ int_ptr rand_select_algorithm(int_ptr *A, int i, int n)
   else
     return rand_select_algorithm(A + k + 1, i - k - 1, n - k - 1);
 }
-
 
 /**
  * Finds the i-th smallest element in an array
@@ -204,8 +203,6 @@ int selection(int *A, int i, int n)
 
   return res.value;
 }
-
-
 
 /**
  * Finds the i-th smallest element in an array

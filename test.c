@@ -22,6 +22,7 @@ int main()
 
   int test_original[TEST_SIZE];
   int test[TEST_SIZE];
+  int test_rand[TEST_SIZE];
   int test_sorted[TEST_SIZE];
   for (int i = 0; i < TEST_SIZE; i++)
   {
@@ -36,11 +37,13 @@ int main()
     for (int j = 0; j < TEST_SIZE; j++)
     {
       test[j] = test_original[j];
+      test_rand[j] = test_original[j];
     }
 
     int res = selection(test, i, TEST_SIZE);
-    int res2 = test_sorted[i];
-    if (res != res2)
+    int res_rand = rand_selection(test_rand, i, TEST_SIZE);
+    int res_qsort = test_sorted[i];
+    if (res != res_qsort || res_rand != res_qsort)
     {
       printf("KO");
       return -1;
