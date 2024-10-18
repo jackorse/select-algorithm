@@ -49,6 +49,24 @@ int_ptr median(int_ptr *A, int size)
   return (int_ptr){.value = A[offset].value, .ptr = A + offset};
 }
 
+int_ptr *max(int_ptr *a, int_ptr *b)
+{
+  return a->value > b->value ? a : b;
+}
+
+int_ptr *min(int_ptr *a, int_ptr *b)
+{
+  return a->value < b->value ? a : b;
+}
+
+int_ptr median5(int_ptr *A)
+{
+  int_ptr *f = max(min(A, A + 1), min(A + 2, A + 3));       // discards lowest from first 4
+  int_ptr *g = min(max(A, A + 1), max(A + 2, A + 3));       // discards biggest from first 4
+  int_ptr *res = max(min(A + 4, f), min(g, max(A + 4, f))); // median3(A[4], f, g);
+  return (int_ptr){.value = res->value, .ptr = res};
+}
+
 void swap(int_ptr *a, int_ptr *b)
 {
   int_ptr tmp = *a;
@@ -114,7 +132,7 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
   int_ptr medians[num_groups];
   for (int j = 0; j < num_groups - 1; j++)
   {
-    medians[j] = median(A + (j * GROUP_SIZE), 0);
+    medians[j] = median5(A + (j * GROUP_SIZE));
   }
   medians[num_groups - 1] = median(A + ((num_groups - 1) * GROUP_SIZE), n % GROUP_SIZE);
 
@@ -160,7 +178,7 @@ int_ptr rand_select_algorithm(int_ptr *A, int i, int n)
     else
       return (int_ptr){.value = -1, .ptr = NULL};
   }
-  
+
   // Move the a random number of the array to the first position
   swap(A, &A[rand() % n]);
 
