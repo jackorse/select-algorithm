@@ -41,7 +41,7 @@ int compare_int_ptr(const void *a, const void *b)
  * @return the position of the median in the array
  */
 static inline int_ptr median(int_ptr *A, int size)
-{ // constant time (propio)
+{
   if (size == 0)
     size = GROUP_SIZE;
   qsort(A, size, sizeof(int_ptr), compare_int_ptr);
@@ -49,16 +49,39 @@ static inline int_ptr median(int_ptr *A, int size)
   return (int_ptr){.value = A[offset].value, .ptr = A + offset};
 }
 
+/**
+ * Returns the maximum of two int_ptr
+ *
+ * @param a: pointer to the first int_ptr
+ * @param b: pointer to the second int_ptr
+ *
+ * @return the int_ptr with the highest value
+ */
 static inline int_ptr *max(int_ptr *a, int_ptr *b)
 {
   return a->value > b->value ? a : b;
 }
 
+/**
+ * Returns the minimum of two int_ptr
+ *
+ * @param a: pointer to the first int_ptr
+ * @param b: pointer to the second int_ptr
+ *
+ * @return the int_ptr with the lowest value
+ */
 static inline int_ptr *min(int_ptr *a, int_ptr *b)
 {
   return a->value < b->value ? a : b;
 }
 
+/**
+ * Returns the median of 5 elements
+ *
+ * @param A: Group of 5 int_ptr elements
+ *
+ * @return An int_ptr struct with the median value and its position in the array A
+ */
 static inline int_ptr median5(int_ptr *A)
 {
   int_ptr *f = max(min(A, A + 1), min(A + 2, A + 3));       // discards lowest from first 4
@@ -127,12 +150,13 @@ int_ptr select_algorithm(int_ptr *A, const int i, const int n)
   // last group may have less than GROUP_SIZE elements
   const int num_groups = n / GROUP_SIZE + (n % GROUP_SIZE == 0 ? 0 : 1);
 
-  // Find the medians of each group
+  // Find the medians for the first num_groups - 1 groups
   int_ptr *medians = (int_ptr *)malloc(num_groups * sizeof(int_ptr));
   for (int j = 0; j < num_groups - 1; j++)
   {
     medians[j] = median5(A + (j * GROUP_SIZE));
   }
+  // Find the median for the last group (whose size may be less than GROUP_SIZE)
   medians[num_groups - 1] = median(A + ((num_groups - 1) * GROUP_SIZE), n % GROUP_SIZE);
 
   // Recursively find the median of medians
@@ -149,10 +173,13 @@ int_ptr select_algorithm(int_ptr *A, const int i, const int n)
   // If the pivot is the i-th element, return it,
   // otherwise, recursively find the i-th element in the lower or upper part
   if (i == k)
+    // Found the i-th element
     return A[k];
   else if (i < k)
+    // Recursively find the i-th element in the lower part
     return select_algorithm(A, i, k);
   else
+    // Recursively find the i-th element in the upper part
     return select_algorithm(A + k + 1, i - k - 1, n - k - 1);
 }
 
