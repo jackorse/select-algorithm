@@ -32,7 +32,6 @@ int compare_int_ptr(const void *a, const void *b)
   return 0;
 }
 
-
 int compare_int(const void *a, const void *b)
 {
   int arg1 = *(const int *)a;
@@ -53,7 +52,7 @@ int compare_int(const void *a, const void *b)
  *
  * @return the position of the median in the array
  */
-int_ptr median(int_ptr *A, int size)
+static inline int_ptr median(int_ptr *A, int size)
 { // constant time (propio)
   if (size == 0)
     size = GROUP_SIZE;
@@ -62,17 +61,17 @@ int_ptr median(int_ptr *A, int size)
   return (int_ptr){.value = A[offset].value, .ptr = A + offset};
 }
 
-int_ptr *max(int_ptr *a, int_ptr *b)
+static inline int_ptr *max(int_ptr *a, int_ptr *b)
 {
   return a->value > b->value ? a : b;
 }
 
-int_ptr *min(int_ptr *a, int_ptr *b)
+static inline int_ptr *min(int_ptr *a, int_ptr *b)
 {
   return a->value < b->value ? a : b;
 }
 
-int_ptr median5(int_ptr *A)
+static inline int_ptr median5(int_ptr *A)
 {
   int_ptr *f = max(min(A, A + 1), min(A + 2, A + 3));       // discards lowest from first 4
   int_ptr *g = min(max(A, A + 1), max(A + 2, A + 3));       // discards biggest from first 4
@@ -80,7 +79,7 @@ int_ptr median5(int_ptr *A)
   return (int_ptr){.value = res->value, .ptr = res};
 }
 
-void swap(int_ptr *a, int_ptr *b)
+static inline void swap(int_ptr *a, int_ptr *b)
 {
   int_ptr tmp = *a;
   *a = *b;
@@ -99,7 +98,7 @@ void swap(int_ptr *a, int_ptr *b)
  *
  * @return the position of the pivot after partitioning
  */
-int partition(int_ptr *A, int n)
+static inline int partition(int_ptr *A, int n)
 {
   int x = A[0].value;
   int k = 0;

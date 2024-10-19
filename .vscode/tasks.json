@@ -32,6 +32,16 @@
                 "isDefault": false
             },
             "problemMatcher": "$gcc"
+        },
+        {
+            "label": "Benchmark",
+            "type": "shell",
+            "command": "make bench",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "problemMatcher": "$gcc"
         }
     ],
     "version": "2.0.0"
