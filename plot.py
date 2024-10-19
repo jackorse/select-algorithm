@@ -1,19 +1,29 @@
-import pandas as pd
 import matplotlib.pyplot as plt
 import json
-%matplotlib inline
-
 
 data = json.load(open("out.json"))
-bench = data["benchmarks"][: len(data["benchmarks"]) - 2]
 
-name = [int(i['name'].split("/")[1]) for i in bench]
-cpu_time = [i['cpu_time'] for i in bench]
-
-print(name)
-print(cpu_time)
-
-df = pd.DataFrame({'name':name, 'cpu_time':cpu_time})
-
+name = []
+cpu_time_rand = []
+cpu_time_qsort = []
+cpu_time = []
+for b in data["benchmarks"]:
+  if "BigO" in b["name"] or "RMS" in b["name"]:
+    continue
+  if "BM_Rand_Selection" in b["name"]:
+    name.append(int(b['name'].split("/")[1]))
+    cpu_time_rand.append(b['cpu_time'])
+  elif "BM_Qsort_Selection" in b["name"]:
+     cpu_time_qsort.append(b['cpu_time'])
+  else:
+     cpu_time.append(b['cpu_time'])
 
 plt.plot(name, cpu_time)
+plt.plot(name, cpu_time_rand)
+plt.plot(name, cpu_time_qsort)
+
+plt.xlabel("Num elements")
+plt.ylabel("Time [ns]")
+plt.legend(["Deterministic", "Random", "Qsort (naive)"])
+plt.title('Complexities')
+plt.show()
