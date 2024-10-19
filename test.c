@@ -40,51 +40,6 @@
     }                                                                        \
   }
 
-/* int main()
-{
-  int v[] = {7, 2, 4, 3, 5, 4, 6, 8, 9, 5};
-  // 2,3,4,4,5,5,6,7,8,9,
-  for (int i = 0; i < 10; i++)
-  {
-    printf("i = %d -> %d\n", i, selection(v, i, 10));
-  }
-
-  int test_original[SMALL_TEST_SIZE];
-  int test[SMALL_TEST_SIZE];
-  int test_rand[SMALL_TEST_SIZE];
-  int test_qsort[SMALL_TEST_SIZE];
-  int test_sorted[SMALL_TEST_SIZE];
-  for (int i = 0; i < SMALL_TEST_SIZE; i++)
-  {
-    test_original[i] = rand() % MAX_NUMBER;
-    test_sorted[i] = test_original[i];
-  }
-
-  qsort(test_sorted, SMALL_TEST_SIZE, sizeof(int), compare_int);
-
-  for (int i = 0; i < SMALL_TEST_SIZE; i++)
-  {
-    for (int j = 0; j < SMALL_TEST_SIZE; j++)
-    {
-      test[j] = test_original[j];
-      test_rand[j] = test_original[j];
-      test_qsort[j] = test_original[j];
-    }
-
-    int res = selection(test, i, SMALL_TEST_SIZE);
-    int res_rand = rand_selection(test_rand, i, SMALL_TEST_SIZE);
-    int res_qsort = rand_selection(test_qsort, i, SMALL_TEST_SIZE);
-    int res_ref = test_sorted[i];
-    if (res != res_ref || res_rand != res_ref || res_qsort != res_ref)
-    {
-      printf("KO");
-      return -1;
-    }
-  }
-  printf("Ok\n");
-  return 0;
-} */
-
 /**
  * Test the normal behaviour of the selection algorithm
  * @param test_size: size of the array to test
