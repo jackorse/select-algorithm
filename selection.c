@@ -128,7 +128,7 @@ int_ptr select_algorithm(int_ptr *A, const int i, const int n)
   const int num_groups = n / GROUP_SIZE + (n % GROUP_SIZE == 0 ? 0 : 1);
 
   // Find the medians of each group
-  int_ptr medians[num_groups];
+  int_ptr *medians = malloc(num_groups * sizeof(int_ptr));
   for (int j = 0; j < num_groups - 1; j++)
   {
     medians[j] = median5(A + (j * GROUP_SIZE));
@@ -137,6 +137,7 @@ int_ptr select_algorithm(int_ptr *A, const int i, const int n)
 
   // Recursively find the median of medians
   int_ptr median_of_medians = select_algorithm(medians, (num_groups - 1) / 2, num_groups);
+  free(medians);
 
   // Move the median of medians to the first position
   swap(A, median_of_medians.ptr);
@@ -168,7 +169,7 @@ int selection(int *A, const int i, const int n)
 {
   // Convert the int array A to to an array of int_ptr,
   // that can be passed to the recursive function
-  int_ptr A_ptr[n];
+  int_ptr *A_ptr = malloc(n * sizeof(int_ptr));
 
   for (int j = 0; j < n; j++)
   {
@@ -177,6 +178,6 @@ int selection(int *A, const int i, const int n)
   }
 
   int_ptr res = select_algorithm(A_ptr, i, n);
-
+  free(A_ptr);
   return res.value;
 }
