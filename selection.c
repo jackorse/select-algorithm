@@ -112,18 +112,17 @@ static inline int partition(int_ptr *A, int n)
 int_ptr select_algorithm(int_ptr *A, const int i, const int n)
 {
   // Error case: just return -1
-  if (n <= 0 || i < 0)
+  if (n <= 0 || i < 0 || i >= n)
     return (int_ptr){.value = -1, .ptr = NULL};
 
-  // Base case: if n = 1 and i = 0, return the only element
-  //            if n = 1 and i != 0, something went wrong, return -1
-  if (n == 1)
+  // Base case: if n <= RECURSION_LIMIT, the recursion overhead is too high,
+  // just use the naive algorithm
+  if (n <= RECURSION_LIMIT)
   {
-    if (i == 0)
-      return A[0];
-    else
-      return (int_ptr){.value = -1, .ptr = NULL};
+    qsort(A, n, sizeof(int_ptr), compare_int_ptr);
+    return A[i];
   }
+
   // Divide the array into groups of GROUP_SIZE elements,
   // last group may have less than GROUP_SIZE elements
   const int num_groups = n / GROUP_SIZE + (n % GROUP_SIZE == 0 ? 0 : 1);

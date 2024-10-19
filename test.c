@@ -49,31 +49,31 @@
     printf("i = %d -> %d\n", i, selection(v, i, 10));
   }
 
-  int test_original[TEST_SIZE];
-  int test[TEST_SIZE];
-  int test_rand[TEST_SIZE];
-  int test_qsort[TEST_SIZE];
-  int test_sorted[TEST_SIZE];
-  for (int i = 0; i < TEST_SIZE; i++)
+  int test_original[SMALL_TEST_SIZE];
+  int test[SMALL_TEST_SIZE];
+  int test_rand[SMALL_TEST_SIZE];
+  int test_qsort[SMALL_TEST_SIZE];
+  int test_sorted[SMALL_TEST_SIZE];
+  for (int i = 0; i < SMALL_TEST_SIZE; i++)
   {
     test_original[i] = rand() % MAX_NUMBER;
     test_sorted[i] = test_original[i];
   }
 
-  qsort(test_sorted, TEST_SIZE, sizeof(int), compare_int);
+  qsort(test_sorted, SMALL_TEST_SIZE, sizeof(int), compare_int);
 
-  for (int i = 0; i < TEST_SIZE; i++)
+  for (int i = 0; i < SMALL_TEST_SIZE; i++)
   {
-    for (int j = 0; j < TEST_SIZE; j++)
+    for (int j = 0; j < SMALL_TEST_SIZE; j++)
     {
       test[j] = test_original[j];
       test_rand[j] = test_original[j];
       test_qsort[j] = test_original[j];
     }
 
-    int res = selection(test, i, TEST_SIZE);
-    int res_rand = rand_selection(test_rand, i, TEST_SIZE);
-    int res_qsort = rand_selection(test_qsort, i, TEST_SIZE);
+    int res = selection(test, i, SMALL_TEST_SIZE);
+    int res_rand = rand_selection(test_rand, i, SMALL_TEST_SIZE);
+    int res_qsort = rand_selection(test_qsort, i, SMALL_TEST_SIZE);
     int res_ref = test_sorted[i];
     if (res != res_ref || res_rand != res_ref || res_qsort != res_ref)
     {
