@@ -173,7 +173,7 @@ int selection(int *A, const int i, const int n)
 
   for (int j = 0; j < n; j++)
   {
-    A_ptr[j].ptr = NULL;
+    // A_ptr[j].ptr = NULL;
     A_ptr[j].value = A[j];
   }
 
