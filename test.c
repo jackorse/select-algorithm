@@ -31,12 +31,12 @@
  * @param select_copy: copy of the original array to be used in the selection algorithm
  */
 #define initialize_arrays(original, copy, size, max_value) \
-  {                                                                          \
-    for (int i = 0; i < size; i++)                                           \
-    {                                                                        \
-      original[i] = rand() % max_value;                                      \
-      copy[i] = original[i];                                                 \
-    }                                                                        \
+  {                                                        \
+    for (int i = 0; i < size; i++)                         \
+    {                                                      \
+      original[i] = rand() % max_value;                    \
+      copy[i] = original[i];                               \
+    }                                                      \
   }
 
 /**
@@ -57,8 +57,6 @@ void select_normal_behaviour(int test_size, int repetitions)
          res_qsort = qsort_selection(original, el, test_size);
          assert(res == res_qsort););
 
-  // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-
   printf("Test passed: [selected_normal_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
 }
 
@@ -66,6 +64,7 @@ void select_normal_behaviour(int test_size, int repetitions)
  * Test the behaviour of the selection algorithm when the array has duplicated elements
  * @param test_size: size of the array to test
  * @param repetitions: number of test's executions (every execution the selected element is different).
+ * @param max_value: maximum value of the elements in the array (used to generate random values)
  * If repetitions > test_size, repetitions = test_size
  */
 void select_duplicated_behaviour(int test_size, int repetitions, int max_value)
@@ -80,14 +79,22 @@ void select_duplicated_behaviour(int test_size, int repetitions, int max_value)
          res_qsort = qsort_selection(original, el, test_size);
          assert(res == res_qsort););
 
-  // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-  if(max_value != 1){
+  if (max_value != 1)
+  {
     printf("Test passed: [selected_some_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
-  }else{
+  }
+  else
+  {
     printf("Test passed: [selected_all_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
   }
 }
 
+/**
+ * Test the normal behaviour of the random selection algorithm
+ * @param test_size: size of the array to test
+ * @param repetitions: number of test's executions (every execution the selected element is different).
+ * If repetitions > test_size, repetitions = test_size
+ */
 void random_normal_behaviour(int test_size, int repetitions)
 {
   int original[test_size], rand_copy[test_size], res_qsort, res_rand;
@@ -100,15 +107,14 @@ void random_normal_behaviour(int test_size, int repetitions)
          res_qsort = qsort_selection(original, el, test_size);
          assert(res_rand == res_qsort););
 
-  // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-
   printf("Test passed: [random_normal_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
 }
 
 /**
- * Test the behaviour of the selection algorithm when the array has duplicated elements
+ * Test the behaviour of the random selection algorithm when the array has duplicated elements
  * @param test_size: size of the array to test
  * @param repetitions: number of test's executions (every execution the selected element is different).
+ * @param max_value: maximum value of the elements in the array (used to generate random values)
  * If repetitions > test_size, repetitions = test_size
  */
 void random_duplicated_behaviour(int test_size, int repetitions, int max_value)
@@ -123,10 +129,12 @@ void random_duplicated_behaviour(int test_size, int repetitions, int max_value)
          res_qsort = qsort_selection(original, el, test_size);
          assert(res_rand == res_qsort););
 
-  // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-  if(max_value != 1){
+  if (max_value != 1)
+  {
     printf("Test passed: [random_some_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
-  }else{
+  }
+  else
+  {
     printf("Test passed: [random_all_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
   }
 }
@@ -149,7 +157,7 @@ void start_all_tests()
   select_duplicated_behaviour(BIG_TEST_SIZE, REPETITIONS, 10);
 
   // Test the behaviour of the selection algorithm when the array has all elements equal
-  select_duplicated_behaviour(SMALL_TEST_SIZE, REPETITIONS, 1);
+  select_duplicated_behaviour(MEDIUM_TEST_SIZE, REPETITIONS, 1);
 
   // Test the normal behaviour of the random algorithm with different test sizes
   random_normal_behaviour(TINY_TEST_SIZE, REPETITIONS);
@@ -164,7 +172,7 @@ void start_all_tests()
   random_duplicated_behaviour(BIG_TEST_SIZE, REPETITIONS, 10);
 
   // Test the behaviour of the random algorithm when the array has all elements equal
-  random_duplicated_behaviour(SMALL_TEST_SIZE, REPETITIONS, 1);
+  random_duplicated_behaviour(MEDIUM_TEST_SIZE, REPETITIONS, 1);
 }
 
 int main()
