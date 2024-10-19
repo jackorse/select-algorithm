@@ -32,18 +32,6 @@ int compare_int_ptr(const void *a, const void *b)
   return 0;
 }
 
-int compare_int(const void *a, const void *b)
-{
-  int arg1 = *(const int *)a;
-  int arg2 = *(const int *)b;
-
-  if (arg1 < arg2)
-    return -1;
-  if (arg1 > arg2)
-    return 1;
-  return 0;
-}
-
 /**
  * Returns the median of an array of int_ptr
  *
@@ -121,7 +109,7 @@ static inline int partition(int_ptr *A, int n)
  * @param i: number of values lower than the element to find
  * @param n: number of elements in the array
  */
-int_ptr select_algorithm(int_ptr *A, int i, int n)
+int_ptr select_algorithm(int_ptr *A, const int i, const int n)
 {
   // Error case: just return -1
   if (n <= 0 || i < 0)
@@ -169,46 +157,6 @@ int_ptr select_algorithm(int_ptr *A, int i, int n)
 }
 
 /**
- * Recursive function to find the i-th smallest element in an array
- *
- * @param A: array of integers
- * @param i: number of values lower than the element to find
- * @param n: number of elements in the array
- */
-int_ptr rand_select_algorithm(int_ptr *A, int i, int n)
-{
-  // Error case: just return -1
-  if (n <= 0 || i < 0)
-    return (int_ptr){.value = -1, .ptr = NULL};
-
-  // Base case: if n = 1 and i = 0, return the only element
-  //            if n = 1 and i != 0, something went wrong, return -1
-  if (n == 1)
-  {
-    if (i == 0)
-      return A[0];
-    else
-      return (int_ptr){.value = -1, .ptr = NULL};
-  }
-
-  // Move the a random number of the array to the first position
-  swap(A, &A[rand() % n]);
-
-  // Partition the array around the random number we choose,
-  // and get the position of the pivot
-  int k = partition(A, n);
-
-  // If the pivot is the i-th element, return it,
-  // otherwise, recursively find the i-th element in the lower or upper part
-  if (i == k)
-    return A[k];
-  else if (i < k)
-    return rand_select_algorithm(A, i, k);
-  else
-    return rand_select_algorithm(A + k + 1, i - k - 1, n - k - 1);
-}
-
-/**
  * Finds the i-th smallest element in an array
  *
  * @param A: array of integers
@@ -217,7 +165,7 @@ int_ptr rand_select_algorithm(int_ptr *A, int i, int n)
  *
  * @return the i-th smallest element in the array
  */
-int selection(int *A, int i, int n)
+int selection(int *A, const int i, const int n)
 {
   // Convert the int array A to to an array of int_ptr,
   // that can be passed to the recursive function
@@ -232,36 +180,4 @@ int selection(int *A, int i, int n)
   int_ptr res = select_algorithm(A_ptr, i, n);
 
   return res.value;
-}
-
-/**
- * Finds the i-th smallest element in an array
- *
- * @param A: array of integers
- * @param i: number of values lower than the element to find
- * @param n: number of elements in the array
- *
- * @return the i-th smallest element in the array
- */
-int rand_selection(int *A, int i, int n)
-{
-  // Convert the int array A to to an array of int_ptr,
-  // that can be passed to the recursive function
-  int_ptr A_ptr[n];
-
-  for (int j = 0; j < n; j++)
-  {
-    A_ptr[j].ptr = NULL;
-    A_ptr[j].value = A[j];
-  }
-
-  int_ptr res = rand_select_algorithm(A_ptr, i, n);
-
-  return res.value;
-}
-
-int qsort_selection(int *A, int i, int n)
-{
-  qsort(A, n, sizeof(int), compare_int);
-  return A[i];
 }

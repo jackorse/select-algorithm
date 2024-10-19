@@ -13,5 +13,5 @@ clean:
 	rm -f test
 
 bench:
-	g++ bench.cpp selection.c -O2 -std=c++11 -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread -o bench
+	g++ bench.cpp selection.c rand-select.c qsort-select.c -O2 -std=c++11 -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread -o bench
 	./bench

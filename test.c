@@ -1,5 +1,8 @@
 #include "selection.h"
+#include "rand-select.h"
+#include "qsort-select.h"
 #include <assert.h>
+#include <stdio.h>
 
 #define REPETITIONS 1000
 #define BIG_TEST_SIZE 10000
@@ -37,26 +40,6 @@
     }                                                                        \
   }
 
-/**
- *Comparison function to be used with qsort
- *@param a: pointer to the first integer
- *@param b: pointer to the second integer
- *@return 1 if a > b,
- *        0 if a == b,
- *       -1 if a < b
- */
-int compare_ints(const void *a, const void *b)
-{
-  int arg1 = *(const int *)a;
-  int arg2 = *(const int *)b;
-
-  if (arg1 < arg2)
-    return -1;
-  if (arg1 > arg2)
-    return 1;
-  return 0;
-}
-
 /* int main()
 {
   int v[] = {7, 2, 4, 3, 5, 4, 6, 8, 9, 5};
@@ -77,7 +60,7 @@ int compare_ints(const void *a, const void *b)
     test_sorted[i] = test_original[i];
   }
 
-  qsort(test_sorted, TEST_SIZE, sizeof(int), compare_ints);
+  qsort(test_sorted, TEST_SIZE, sizeof(int), compare_int);
 
   for (int i = 0; i < TEST_SIZE; i++)
   {

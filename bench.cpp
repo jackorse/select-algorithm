@@ -1,5 +1,7 @@
 #include <benchmark/benchmark.h>
 #include "selection.h"
+#include "qsort-select.h"
+#include "rand-select.h"
 
 #define MAX_ELEMENTS 1 << 18
 #define MIN_ELEMENTS 1 << 2
@@ -29,7 +31,7 @@ static void BM_Selection(benchmark::State &state)
 BENCHMARK(BM_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
-    ->Complexity(benchmark::oN);
+    ->Complexity();
 
 static void BM_Rand_Selection(benchmark::State &state)
 {
