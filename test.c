@@ -8,7 +8,7 @@
 #define BIG_TEST_SIZE 10000
 #define MEDIUM_TEST_SIZE 1000
 #define SMALL_TEST_SIZE 100
-#define TINY_TEST_SIZE 4
+#define TINY_TEST_SIZE 5
 #define MAX_NUMBER 100000
 
 /**
@@ -101,11 +101,11 @@ void select_normal_behaviour(int test_size, int repetitions)
          initialize_arrays(original, rand_copy, select_copy, test_size, MAX_NUMBER);
          res = selection(select_copy, el, test_size);
          res_rand = rand_selection(rand_copy, el, test_size);
-         res_qsort = qsort_selection(original, el, test_size););
+         res_qsort = qsort_selection(original, el, test_size);
+         assert(res == res_qsort && res_rand == res_qsort););
 
   // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-  assert(res == res_qsort);
-  assert(res_rand == res_qsort);
+
   printf("Test passed: [normal_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
 }
 
@@ -125,11 +125,11 @@ void select_duplicated_behaviour(int test_size, int repetitions, int max_value)
          initialize_arrays(original, rand_copy, select_copy, test_size, max_value);
          res = selection(select_copy, el, test_size);
          res_rand = rand_selection(rand_copy, el, test_size);
-         res_qsort = qsort_selection(original, el, test_size););
+         res_qsort = qsort_selection(original, el, test_size);
+         assert(res == res_qsort && res_rand == res_qsort););
 
   // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-  assert(res == res_qsort);
-  assert(res_rand == res_qsort);
+
   printf("Test passed: [duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
 }
 
