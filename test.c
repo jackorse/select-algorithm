@@ -84,8 +84,11 @@ void select_duplicated_behaviour(int test_size, int repetitions, int max_value)
          assert(res == res_qsort && res_rand == res_qsort););
 
   // Check if the element selected by the selection algorithm is the same as the one selected by qsort and rand_selection algorithms
-
-  printf("Test passed: [duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
+  if(max_value != 1){
+    printf("Test passed: [some_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
+  }else{
+    printf("Test passed: [all_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
+  }
 }
 
 /**
