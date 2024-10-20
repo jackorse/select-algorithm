@@ -57,7 +57,7 @@ void select_normal_behaviour(int test_size, int repetitions)
          res_qsort = qsort_selection(original, el, test_size);
          assert(res == res_qsort););
 
-  printf("Test passed: [selected_normal_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
+  printf("Test passed: [select_normal_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
 }
 
 /**
@@ -81,11 +81,11 @@ void select_duplicated_behaviour(int test_size, int repetitions, int max_value)
 
   if (max_value != 1)
   {
-    printf("Test passed: [selected_some_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
+    printf("Test passed: [select_some_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
   }
   else
   {
-    printf("Test passed: [selected_all_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
+    printf("Test passed: [select_all_duplicated_behaviour, test_size: %d, repetitions: %d]\n", test_size, actual_repetitions);
   }
 }
 
@@ -140,7 +140,17 @@ void random_duplicated_behaviour(int test_size, int repetitions, int max_value)
 }
 
 /**
- * Start all tests
+ * Start all tests.
+ * With this battery of tests, we ensure that the deterministic and random selection algorithms work correctly by
+ * comparing their results with the qsort selection algorithm's results.
+ * The tests are divided into two categories: normal behaviour and duplicated behaviour. The first ones test the
+ * algorithms' normal behaviour with certain test sizes and repetitions in order to ensure that the algorithms hasn't
+ * guess the selected element only by chance. The second ones test the algorithms behaviour
+ * when the array has a big number of duplicated elements to verify that the selection logic reacts correctly even with a
+ * big number elements equals to each other.
+ *
+ * @warning: The tests are not exhaustive, but they are enough to ensure that the algorithms work correctly.
+ * @warning: The tests with BIG_TEST_SIZE and a lot of duplicated elements can take a long time to finish.
  */
 void start_all_tests()
 {
