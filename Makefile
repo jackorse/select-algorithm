@@ -5,7 +5,7 @@ CFLAGS := -Wall
 SRCS := $(wildcard *.c)
 
 test: $(SRCS)
-	$(CC) -o $@ -O2 $^ $(CFLAGS)
+	$(CC) -o $@ -O2 -g3 $^ $(CFLAGS)
 	./test
 
 clean: 
