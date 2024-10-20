@@ -3,6 +3,8 @@
 #include "qsort-select.h"
 #include "rand-select.h"
 #include <limits.h>
+//Testing only
+#include "select-online.hpp"
 
 #define MAX_ELEMENTS 1 << 24
 #define MIN_ELEMENTS 1 << 2
@@ -86,6 +88,33 @@ BENCHMARK(BM_Qsort_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
     ->Complexity();
+
+//static void BM_Online_Selection(benchmark::State &state)
+//{
+//  int size = state.range(0);
+//
+//  // Perform setup here
+//  std::vector<int> arr;
+//
+//  for (int i = 0; i < size; i++)
+//  {
+//    arr[i] = rand() % MAX_NUMBER;
+//  }
+//  std::vector<int> const v = arr;
+//  for (auto _ : state)
+//  {
+//    // This code gets timed
+//    const int i = (size / 2); // rand() % (size-1);
+//    benchmark::DoNotOptimize(online_selection(v));
+//  }
+//
+//  state.SetComplexityN(state.range(0));
+//}
+//// Register the function as a benchmark
+//BENCHMARK(BM_Online_Selection)
+//    ->RangeMultiplier(2)
+//    ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
+//    ->Complexity();
 
 // Run the benchmark
 BENCHMARK_MAIN();
