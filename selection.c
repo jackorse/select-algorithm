@@ -46,7 +46,7 @@ static inline int_ptr median(int_ptr *A, int size)
     size = GROUP_SIZE;
   qsort(A, size, sizeof(int_ptr), compare_int_ptr);
   const int offset = (size - 1) / 2;
-  return (int_ptr){.value = A[offset].value, .ptr = A + offset};
+  return (int_ptr){.value = A[offset].value, .ptr = NULL};
 }
 
 /**
@@ -87,7 +87,7 @@ static inline int_ptr median5(int_ptr *A)
   int_ptr *f = max(min(A, A + 1), min(A + 2, A + 3));       // discards lowest from first 4
   int_ptr *g = min(max(A, A + 1), max(A + 2, A + 3));       // discards biggest from first 4
   int_ptr *res = max(min(A + 4, f), min(g, max(A + 4, f))); // median3(A[4], f, g);
-  return (int_ptr){.value = res->value, .ptr = res};
+  return (int_ptr){.value = res->value, .ptr = NULL};
 }
 
 static inline void swap(int_ptr *a, int_ptr *b)
@@ -110,9 +110,20 @@ static inline void swap(int_ptr *a, int_ptr *b)
  *
  * @return the position of the pivot after partitioning
  */
-static inline int partition(int_ptr *A, int n, int i)
+static inline int partition(int_ptr *A, int n, int i, int x)
 {
-  int x = A[n - 1].value;
+  int p_index;
+  for (int j = 0; j < n; j++)
+  {
+    if (A[j].value == x)
+    {
+      p_index = j;
+      break;
+    }
+  }
+
+  swap(A + p_index, A + n - 1);
+
   int k = 0;
   for (int j = 0; j < n - 1; j++)
   {
@@ -180,11 +191,11 @@ int_ptr select_algorithm(int_ptr *A, const int i, const int n)
   free(medians);
 
   // Move the median of medians to the last position
-  swap(A + n - 1, median_of_medians.ptr);
+  // swap(A  + n - 1, median_of_medians.ptr);
 
   // Partition the array around the median of medians,
   // and get the position of the median of medians (pivot)
-  int k = partition(A, n, i);
+  int k = partition(A, n, i, median_of_medians.value);
 
   // If the pivot is the i-th element, return it,
   // otherwise, recursively find the i-th element in the lower or upper part
