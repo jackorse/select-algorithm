@@ -10,7 +10,7 @@
  *         0 if a == b,
  *        -1 if a < b
  */
-int compare_ints(const void *a, const void *b)
+static int compare_int(const void *a, const void *b)
 {
   int arg1 = *(const int *)a;
   int arg2 = *(const int *)b;
@@ -34,7 +34,7 @@ static inline int median(int *A, int size)
 {
   if (size == 0)
     size = GROUP_SIZE;
-  qsort(A, size, sizeof(int), compare_ints);
+  qsort(A, size, sizeof(int), compare_int);
   const int offset = (size - 1) / 2;
   return A[offset];
 }
@@ -74,8 +74,8 @@ static inline int min(int a, int b)
  */
 static inline int median5(int *A)
 {
-  int f = max(min(A[0], A[1]), min(A[2], A[3])); // discards lowest from first 4
-  int g = min(max(A[0], A[1]), max(A[2], A[3])); // discards biggest from first 4
+  int f = max(min(A[0], A[1]), min(A[2], A[3]));  // discards lowest from first 4
+  int g = min(max(A[0], A[1]), max(A[2], A[3]));  // discards biggest from first 4
   return max(min(A[4], f), min(g, max(A[4], f))); // median3(A[4], f, g);
 }
 
@@ -87,7 +87,7 @@ static inline void swap(int *a, int *b)
 }
 
 /**
- * Partitions the array around the last element (pivot)
+ * Partitions the array around the pivot element
  * After being partitioned the array will look like:
  * A = {less, eq, more}
  *      less = all the elements in A < than p
@@ -96,49 +96,37 @@ static inline void swap(int *a, int *b)
  *
  * @param A: array of int_ptr
  * @param n: number of elements in the array
+ * @param i: number of values lower than the element to find
+ * @param pivot: value to partition the array
  *
  * @return the position of the pivot after partitioning
  */
-static inline int partition(int *A, int n, int i, int x)
+static inline int partition(int *A, int n, int i, int pivot)
 {
-  int p_index;
+  int k = 0;
   for (int j = 0; j < n; j++)
   {
-    if (A[j] == x)
-    {
-      p_index = j;
-      break;
-    }
-  }
-
-  swap(A + p_index, A + n - 1);
-
-  int k = 0;
-  for (int j = 0; j < n - 1; j++)
-  {
-    if (A[j] < x)
+    if (A[j] < pivot)
     {
       swap(A + k, A + j);
       k++;
     }
   }
   int kEq = k;
-  for (int j = k; j < n - 1; j++)
+  for (int j = k; j < n; j++)
   {
-    if (A[j] == x)
+    if (A[j] == pivot)
     {
       swap(A + kEq, A + j);
       kEq++;
     }
   }
 
-  swap(A + n - 1, A + kEq);
-
   if (i < k)
     return k;
-  if (i <= kEq)
+  if (i < kEq)
     return i;
-  return kEq;
+  return kEq - 1;
 }
 
 /**
@@ -158,7 +146,7 @@ int select_algorithm(int *A, const int i, const int n)
   // just use the naive algorithm
   if (n <= RECURSION_LIMIT)
   {
-    qsort(A, n, sizeof(int), compare_ints);
+    qsort(A, n, sizeof(int), compare_int);
     return A[i];
   }
 
