@@ -98,10 +98,11 @@ static inline void swap(int_ptr *a, int_ptr *b)
 }
 
 /**
- * Partitions the array around the first element (pivot)
+ * Partitions the array around the last element (pivot)
  * After being partitioned the array will look like:
- * A = {less, p, more}
- *      less = all the elements in A <= than p
+ * A = {less, eq, more}
+ *      less = all the elements in A < than p
+ *      eq = all the elements in A equals to p
  *      more = all the elements in A  > than p
  *
  * @param A: array of int_ptr
@@ -109,20 +110,35 @@ static inline void swap(int_ptr *a, int_ptr *b)
  *
  * @return the position of the pivot after partitioning
  */
-static inline int partition(int_ptr *A, int n)
+static inline int partition(int_ptr *A, int n, int i)
 {
-  int x = A[0].value;
+  int x = A[n - 1].value;
   int k = 0;
-  for (int j = 1; j < n; j++)
+  for (int j = 0; j < n - 1; j++)
   {
-    if (A[j].value <= x)
+    if (A[j].value < x)
     {
-      k++;
       swap(A + k, A + j);
+      k++;
     }
   }
-  swap(A, A + k);
-  return k;
+  int kEq = k;
+  for (int j = k; j < n - 1; j++)
+  {
+    if (A[j].value == x)
+    {
+      swap(A + kEq, A + j);
+      kEq++;
+    }
+  }
+
+  swap(A + n - 1, A + kEq);
+
+  if (i < k)
+    return k;
+  if (i <= kEq)
+    return i;
+  return kEq;
 }
 
 /**
@@ -163,12 +179,12 @@ int_ptr select_algorithm(int_ptr *A, const int i, const int n)
   int_ptr median_of_medians = select_algorithm(medians, (num_groups - 1) / 2, num_groups);
   free(medians);
 
-  // Move the median of medians to the first position
-  swap(A, median_of_medians.ptr);
+  // Move the median of medians to the last position
+  swap(A + n - 1, median_of_medians.ptr);
 
   // Partition the array around the median of medians,
   // and get the position of the median of medians (pivot)
-  int k = partition(A, n);
+  int k = partition(A, n, i);
 
   // If the pivot is the i-th element, return it,
   // otherwise, recursively find the i-th element in the lower or upper part
