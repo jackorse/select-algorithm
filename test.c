@@ -148,9 +148,6 @@ void random_duplicated_behaviour(int test_size, int repetitions, int max_value)
  * guess the selected element only by chance. The second ones test the algorithms behaviour
  * when the array has a big number of duplicated elements to verify that the selection logic reacts correctly even with a
  * big number elements equals to each other.
- *
- * @warning: The tests are not exhaustive, but they are enough to ensure that the algorithms work correctly.
- * @warning: The tests with BIG_TEST_SIZE and a lot of duplicated elements can take a long time to finish.
  */
 void start_all_tests()
 {
@@ -182,7 +179,7 @@ void start_all_tests()
   random_duplicated_behaviour(BIG_TEST_SIZE, REPETITIONS, 10);
 
   // Test the behaviour of the random algorithm when the array has all elements equal
-  random_duplicated_behaviour(MEDIUM_TEST_SIZE, REPETITIONS, 1);
+  random_duplicated_behaviour(BIG_TEST_SIZE, REPETITIONS, 1);
 }
 
 int main()
