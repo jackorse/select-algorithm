@@ -1,5 +1,6 @@
 #include <limits>
 #include <stdio.h>
+#include <chrono>
 #include <benchmark/benchmark.h>
 #include "selection.h"
 #include "qsort-select.h"
@@ -22,13 +23,25 @@ static void BM_Selection(benchmark::State &state)
   for (auto _ : state)
   {
     state.PauseTiming();
+
     if(fread(arr, sizeof(int), size, r) != size)
       printf("Failed to init the array\n");
     const int i = (size / 2); // rand() % (size-1);
+
     state.ResumeTiming();
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     // This code gets timed
     benchmark::DoNotOptimize(selection(arr, i, size));
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto elapsed_seconds =
+      std::chrono::duration_cast<std::chrono::duration<double>>(
+        end - start);
+
+    state.SetIterationTime(elapsed_seconds.count());
   }
   free(arr);
 
@@ -39,6 +52,7 @@ static void BM_Selection(benchmark::State &state)
 BENCHMARK(BM_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
+    ->UseManualTime()
     ->Complexity();
 
 static void BM_Rand_Selection(benchmark::State &state)
@@ -51,13 +65,25 @@ static void BM_Rand_Selection(benchmark::State &state)
   for (auto _ : state)
   {
     state.PauseTiming();
+
     if(fread(arr, sizeof(int), size, r) != size)
       printf("Failed to init the array\n");
     const int i = (size / 2); // rand() % (size-1);
+
     state.ResumeTiming();
+
+    auto start = std::chrono::high_resolution_clock::now();
 
     // This code gets timed
     benchmark::DoNotOptimize(rand_selection(arr, i, size));
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto elapsed_seconds =
+      std::chrono::duration_cast<std::chrono::duration<double>>(
+        end - start);
+
+    state.SetIterationTime(elapsed_seconds.count());
   }
   free(arr);
 
@@ -67,6 +93,7 @@ static void BM_Rand_Selection(benchmark::State &state)
 BENCHMARK(BM_Rand_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
+    ->UseManualTime()
     ->Complexity();
 
 static void BM_Qsort_Selection(benchmark::State &state)
@@ -78,12 +105,25 @@ static void BM_Qsort_Selection(benchmark::State &state)
   for (auto _ : state)
   {
     state.PauseTiming();
-    if (fread(arr, sizeof(int), size, r) != size)
+
+    if(fread(arr, sizeof(int), size, r) != size)
       printf("Failed to init the array\n");
     const int i = (size / 2); // rand() % (size-1);
+
     state.ResumeTiming();
+
+    auto start = std::chrono::high_resolution_clock::now();
+
     // This code gets timed
     benchmark::DoNotOptimize(qsort_selection(arr, i, size));
+
+    auto end = std::chrono::high_resolution_clock::now();
+
+    auto elapsed_seconds =
+      std::chrono::duration_cast<std::chrono::duration<double>>(
+        end - start);
+
+    state.SetIterationTime(elapsed_seconds.count());
   }
   free(arr);
 
@@ -93,6 +133,7 @@ static void BM_Qsort_Selection(benchmark::State &state)
 BENCHMARK(BM_Qsort_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
+    ->UseManualTime()
     ->Complexity();
 
 // static void BM_Online_Selection(benchmark::State &state)
