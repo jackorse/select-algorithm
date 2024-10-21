@@ -1,6 +1,5 @@
 #include "selection.h"
 #include "rand-select.h"
-#include "qsort-select.h"
 #include <assert.h>
 #include <stdio.h>
 

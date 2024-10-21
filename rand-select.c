@@ -1,56 +1,5 @@
 #include "rand-select.h"
 
-static inline void swap(int *a, int *b)
-{
-    int tmp = *a;
-    *a = *b;
-    *b = tmp;
-}
-
-/**
- * Partitions the array around the last element (pivot)
- * After being partitioned the array will look like:
- * A = {less, eq, more}
- *      less = all the elements in A < than p
- *      eq = all the elements in A equals to p
- *      more = all the elements in A  > than p
- *
- * @param A: array of int_ptr
- * @param n: number of elements in the array
- *
- * @return the position of the pivot after partitioning
- */
-static inline int partition(int *A, int n, int i)
-{
-    int x = A[n - 1];
-    int k = 0;
-    for (int j = 0; j < n - 1; j++)
-    {
-        if (A[j] < x)
-        {
-            swap(A + k, A + j);
-            k++;
-        }
-    }
-    int kEq = k;
-    for (int j = k; j < n - 1; j++)
-    {
-        if (A[j] == x)
-        {
-            swap(A + kEq, A + j);
-            kEq++;
-        }
-    }
-
-    swap(A + n - 1, A + kEq);
-
-    if (i < k)
-        return k;
-    if (i <= kEq)
-        return i;
-    return kEq;
-}
-
 /**
  * Finds the i-th smallest element in an array
  *
@@ -76,12 +25,11 @@ int rand_selection(int *A, const int i, const int n)
             return -1;
     }
 
-    // Move the a random number of the array to the first position
-    swap(A + n - 1, &A[rand() % n]);
+    int pivot = A[rand() % n];
 
     // Partition the array around the random number we choose,
     // and get the position of the pivot
-    int k = partition(A, n, i);
+    int k = partition(A, n, i, pivot);
 
     // If the pivot is the i-th element, return it,
     // otherwise, recursively find the i-th element in the lower or upper part
