@@ -12,9 +12,7 @@ static inline int median(int *A, int size)
 {
   if (size == 0)
     size = GROUP_SIZE;
-  qsort(A, size, sizeof(int), compare_int);
-  const int offset = (size - 1) / 2;
-  return A[offset];
+  return qsort_selection(A, (size - 1) / 2, size);
 }
 
 /**
