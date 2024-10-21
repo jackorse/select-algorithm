@@ -13,7 +13,7 @@ clean:
 	rm -f test
 
 bench:
-	g++ bench.cpp selection.c rand-select.c qsort-select.c -O3 -march=native -std=c++11 -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread -o bench
+	g++ bench.cpp selection.c rand-select.c -O3 -march=native -std=c++11 -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread -o bench
 	./bench --benchmark_out=out.json
 
 bench_manual:

@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <benchmark/benchmark.h>
 #include "selection.h"
-#include "qsort-select.h"
 #include "rand-select.h"
 // Testing only
 #include "select-online.hpp"
