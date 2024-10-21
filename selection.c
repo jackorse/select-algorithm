@@ -129,14 +129,17 @@ static inline int partition(int *A, int n, int i, int pivot)
   return kEq - 1;
 }
 
+
 /**
- * Recursive function to find the i-th smallest element in an array
+ * Finds the i-th smallest element in an array
  *
  * @param A: array of integers
  * @param i: number of values lower than the element to find
  * @param n: number of elements in the array
+ *
+ * @return the i-th smallest element in the array
  */
-int select_algorithm(int *A, const int i, const int n)
+int selection(int *A, const int i, const int n)
 {
   // Error case: just return -1
   if (n <= 0 || i < 0 || i >= n)
@@ -164,7 +167,7 @@ int select_algorithm(int *A, const int i, const int n)
   medians[num_groups - 1] = median(A + ((num_groups - 1) * GROUP_SIZE), n % GROUP_SIZE);
 
   // Recursively find the median of medians
-  int median_of_medians = select_algorithm(medians, (num_groups - 1) / 2, num_groups);
+  int median_of_medians = selection(medians, (num_groups - 1) / 2, num_groups);
   free(medians);
 
   // Move the median of medians to the last position
@@ -181,22 +184,8 @@ int select_algorithm(int *A, const int i, const int n)
     return A[k];
   else if (i < k)
     // Recursively find the i-th element in the lower part
-    return select_algorithm(A, i, k);
+    return selection(A, i, k);
   else
     // Recursively find the i-th element in the upper part
-    return select_algorithm(A + k + 1, i - k - 1, n - k - 1);
-}
-
-/**
- * Finds the i-th smallest element in an array
- *
- * @param A: array of integers
- * @param i: number of values lower than the element to find
- * @param n: number of elements in the array
- *
- * @return the i-th smallest element in the array
- */
-int selection(int *A, const int i, const int n)
-{
-  return select_algorithm(A, i, n);
+    return selection(A + k + 1, i - k - 1, n - k - 1);
 }
