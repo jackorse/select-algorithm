@@ -56,7 +56,7 @@ static void BM_Rand_Selection(benchmark::State &state)
     state.ResumeTiming();
 
     // This code gets timed
-    benchmark::DoNotOptimize(rand_selection(arr, i, size));
+    benchmark::DoNotOptimize(rand_selection(arr, i, size, false));
   }
   free(arr);
 
@@ -86,14 +86,14 @@ static void BM_Rand_Selection_WorstCase(benchmark::State &state)
     state.ResumeTiming();
 
     // This code gets timed
-    benchmark::DoNotOptimize(rand_selection(arr, i, size));
+    benchmark::DoNotOptimize(rand_selection(arr, i, size, true));
   }
   free(arr);
 
   state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(BM_Qsort_Selection)
+BENCHMARK(BM_Qsort_Selection_WorstCase)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
     ->Complexity();
