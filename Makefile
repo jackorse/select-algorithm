@@ -1,17 +1,24 @@
-.PHONY: test clean bench bench_manual
+.PHONY: clean
 
 CC := gcc
-CFLAGS := -Wall
+G++ := g++
+CFLAGS := -Wall -O3 -march=native 
+BENCH_FLAGS := -std=c++11 -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread
 SRCS := $(wildcard *.c)
+BENCH_SRCS := bench.cpp selection.c rand-select.c
 
 test: $(SRCS)
-	$(CC) -o $@ -O3 -march=native -g3 $^ $(CFLAGS)
-	./test
+	$(CC) -o $@ -g3 $^ $(CFLAGS)
+	./$@
 
 clean: 
 	@echo "Cleaning..."
-	rm -f test
+	rm -f test bench bench_manual out.json
 
-bench:
-	g++ bench.cpp selection.c rand-select.c -O3 -march=native -std=c++11 -isystem benchmark/include -Lbenchmark/build/src -lbenchmark -lpthread -o bench
-	./bench --benchmark_out=out.json
+bench: $(BENCH_SRCS)
+	$(G++) -o $@ $^ $(CFLAGS) $(BENCH_FLAGS)
+	./$@ --benchmark_out=out.json
+
+bench-worst-random: $(BENCH_SRCS)
+	$(G++) -o $@ $^ $(CFLAGS) $(BENCH_FLAGS) -DWORST_RANDOM
+	./$@ --benchmark_out=out.json
