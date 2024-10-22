@@ -6,23 +6,21 @@
  * @param A: array of integers
  * @param i: number of values lower than the element to find
  * @param n: number of elements in the array
+ * @param worst_case: if true, the pivot is the first element in the array (worst case if the input array is sorted)
  *
  * @return the i-th smallest element in the array
  */
 int rand_selection(int *A, const int i, const int n, bool worst_case)
 {
     // Error case: just return -1
-    if (n <= 0 || i < 0)
+    if (n <= 0 || i < 0 || i >= n)
         return -1;
 
-    // Base case: if n = 1 and i = 0, return the only element
-    //            if n = 1 and i != 0, something went wrong, return -1
-    if (n == 1)
+    // Base case: if n <= RECURSION_LIMIT, the recursion overhead is too high,
+    // just use the naive algorithm
+    if (n <= RECURSION_LIMIT)
     {
-        if (i == 0)
-            return A[0];
-        else
-            return -1;
+        return qsort_selection(A, i, n);
     }
 
     int pivot = worst_case ? A[0] : A[rand() % n];
