@@ -12,7 +12,7 @@ FILE *r = fopen("/dev/urandom", "r");
 
 static void BM_Selection(benchmark::State &state)
 {
-  int size = state.range(0);
+  const size_t size = state.range(0);
   // Perform setup here
   int *arr = (int *)malloc(size * sizeof(int));
 
@@ -40,7 +40,7 @@ BENCHMARK(BM_Selection)
 
 static void BM_Rand_Selection(benchmark::State &state)
 {
-  int size = state.range(0);
+  const size_t size = state.range(0);
 
   // Perform setup here
   int *arr = (int *)malloc(size * sizeof(int));
@@ -70,7 +70,7 @@ BENCHMARK(BM_Rand_Selection)
 #ifdef WORST_RANDOM
 static void BM_Rand_Selection_WorstCase(benchmark::State &state)
 {
-  int size = state.range(0);
+  const size_t size = state.range(0);
 
   // Perform setup here
   int *arr = (int *)malloc(size * sizeof(int));
@@ -102,7 +102,7 @@ BENCHMARK(BM_Rand_Selection_WorstCase)
 
 static void BM_Qsort_Selection(benchmark::State &state)
 {
-  int size = state.range(0);
+  const size_t size = state.range(0);
   int *arr = (int *)malloc(size * sizeof(int));
 
   // Perform setup here
