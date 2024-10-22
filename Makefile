@@ -1,4 +1,4 @@
-.PHONY: clean
+.PHONY: test clean bench bench-worst-random
 
 CC := gcc
 G++ := g++
