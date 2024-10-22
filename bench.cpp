@@ -77,7 +77,7 @@ static void BM_Rand_Selection_WorstCase(benchmark::State &state)
   for (auto _ : state)
   {
     state.PauseTiming();
-    for (int j = 0; j < size; j++)
+    for (size_t j = 0; j < size; j++)
     {
       arr[j] = j;
     }
