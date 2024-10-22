@@ -82,7 +82,7 @@ static void BM_Rand_Selection_WorstCase(benchmark::State &state)
     {
       arr[j] = j;
     }
-    const int i = size; // rand() % (size-1);
+    const int i = size - 1; // rand() % (size-1);
     state.ResumeTiming();
 
     // This code gets timed
