@@ -5,10 +5,10 @@
 #define RECURSION_LIMIT 10
 
 /**
- * Compares two int_ptr based on their value
+ * Compares two int based on their value
  *
- * @param a: pointer to the first int_ptr
- * @param b: pointer to the second int_ptr
+ * @param a: pointer to the first int
+ * @param b: pointer to the second int
  *
  * @return 1 if a > b,
  *         0 if a == b,
@@ -29,7 +29,7 @@ static int compare_int(const void *a, const void *b)
 /**
  * Naive implementation of the selection algorithm using qsort
  *
- * @param A: array of int_ptr
+ * @param A: array of int
  * @param i: number of values lower than the element to find
  * @param n: number of elements in the array
  *
@@ -56,7 +56,7 @@ static inline void swap(int *a, int *b)
  *      eq = all the elements in A equals to p
  *      more = all the elements in A  > than p
  *
- * @param A: array of int_ptr
+ * @param A: array of int
  * @param n: number of elements in the array
  * @param i: number of values lower than the element to find
  * @param pivot: value to partition the array

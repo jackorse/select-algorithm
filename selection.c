@@ -1,12 +1,12 @@
 #include "selection.h"
 
 /**
- * Returns the median of an array of int_ptr
+ * Returns the median of an array of int
  *
- * @param A: array of int_ptr
+ * @param A: array of int
  * @param size: number of elements in the array
  *
- * @return the position of the median in the array
+ * @return the median in the array
  */
 static inline int median(int *A, int size)
 {
@@ -16,12 +16,12 @@ static inline int median(int *A, int size)
 }
 
 /**
- * Returns the maximum of two int_ptr
+ * Returns the maximum of two int
  *
- * @param a: pointer to the first int_ptr
- * @param b: pointer to the second int_ptr
+ * @param a: pointer to the first int
+ * @param b: pointer to the second int
  *
- * @return the int_ptr with the highest value
+ * @return the highest value
  */
 static inline int max(int a, int b)
 {
@@ -29,12 +29,12 @@ static inline int max(int a, int b)
 }
 
 /**
- * Returns the minimum of two int_ptr
+ * Returns the minimum of two int
  *
- * @param a: pointer to the first int_ptr
- * @param b: pointer to the second int_ptr
+ * @param a: pointer to the first int
+ * @param b: pointer to the second int
  *
- * @return the int_ptr with the lowest value
+ * @return the lowest value
  */
 static inline int min(int a, int b)
 {
@@ -44,9 +44,9 @@ static inline int min(int a, int b)
 /**
  * Returns the median of 5 elements
  *
- * @param A: Group of 5 int_ptr elements
+ * @param A: Group of 5 int elements
  *
- * @return An int_ptr struct with the median value and its position in the array A
+ * @return The median value of the array A
  */
 static inline int median5(int *A)
 {
