@@ -93,7 +93,7 @@ static void BM_Rand_Selection_WorstCase(benchmark::State &state)
   state.SetComplexityN(state.range(0));
 }
 
-BENCHMARK(BM_Qsort_Selection_WorstCase)
+BENCHMARK(BM_Rand_Selection_WorstCase)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
     ->Complexity();
