@@ -7,7 +7,7 @@
 #include "select-online.hpp"
 
 #define MAX_ELEMENTS 1 << 18
-#define MIN_ELEMENTS 1 << 2
+#define MIN_ELEMENTS 1 << 10
 #define MAX_NUMBER INT_MAX
 
 FILE *r = fopen("/dev/urandom", "r");
@@ -21,7 +21,7 @@ static void BM_Selection(benchmark::State &state)
   for (auto _ : state)
   {
     state.PauseTiming();
-    if(fread(arr, sizeof(int), size, r) != size)
+    if (fread(arr, sizeof(int), size, r) != size)
       printf("Failed to init the array\n");
     const int i = (size / 2); // rand() % (size-1);
     state.ResumeTiming();
@@ -38,7 +38,7 @@ static void BM_Selection(benchmark::State &state)
 BENCHMARK(BM_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
-    ->Complexity();
+    ->Complexity(benchmark::oN);
 
 static void BM_Rand_Selection(benchmark::State &state)
 {
@@ -50,7 +50,7 @@ static void BM_Rand_Selection(benchmark::State &state)
   for (auto _ : state)
   {
     state.PauseTiming();
-    if(fread(arr, sizeof(int), size, r) != size)
+    if (fread(arr, sizeof(int), size, r) != size)
       printf("Failed to init the array\n");
     const int i = (size / 2); // rand() % (size-1);
     state.ResumeTiming();
@@ -64,6 +64,36 @@ static void BM_Rand_Selection(benchmark::State &state)
 }
 // Register the function as a benchmark
 BENCHMARK(BM_Rand_Selection)
+    ->RangeMultiplier(2)
+    ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
+    ->Complexity(benchmark::oN);
+
+static void BM_Rand_Selection_WorstCase(benchmark::State &state)
+{
+  int size = state.range(0);
+
+  // Perform setup here
+  int *arr = (int *)malloc(size * sizeof(int));
+
+  for (auto _ : state)
+  {
+    state.PauseTiming();
+    for (int j = 0; j < size; j++)
+    {
+      arr[j] = j;
+    }
+    const int i = size; // rand() % (size-1);
+    state.ResumeTiming();
+
+    // This code gets timed
+    benchmark::DoNotOptimize(rand_selection(arr, i, size));
+  }
+  free(arr);
+
+  state.SetComplexityN(state.range(0));
+}
+
+BENCHMARK(BM_Qsort_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
     ->Complexity();
@@ -92,7 +122,7 @@ static void BM_Qsort_Selection(benchmark::State &state)
 BENCHMARK(BM_Qsort_Selection)
     ->RangeMultiplier(2)
     ->Range(MIN_ELEMENTS, MAX_ELEMENTS)
-    ->Complexity();
+    ->Complexity(benchmark::oNLogN);
 
 // static void BM_Online_Selection(benchmark::State &state)
 //{

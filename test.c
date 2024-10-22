@@ -102,7 +102,7 @@ void random_normal_behaviour(int test_size, int repetitions)
   // Repetitions are used to test the algorithm with different selected elements
   repeat(actual_repetitions,
          initialize_arrays(original, rand_copy, test_size, MAX_NUMBER);
-         res_rand = rand_selection(rand_copy, el, test_size);
+         res_rand = rand_selection(rand_copy, el, test_size, false);
          res_qsort = qsort_selection(original, el, test_size);
          assert(res_rand == res_qsort););
 
@@ -124,7 +124,7 @@ void random_duplicated_behaviour(int test_size, int repetitions, int max_value)
   // Repetitions are used to test the algorithm with different selected elements
   repeat(actual_repetitions,
          initialize_arrays(original, rand_copy, test_size, max_value);
-         res_rand = rand_selection(rand_copy, el, test_size);
+         res_rand = rand_selection(rand_copy, el, test_size, false);
          res_qsort = qsort_selection(original, el, test_size);
          assert(res_rand == res_qsort););
 

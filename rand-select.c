@@ -9,7 +9,7 @@
  *
  * @return the i-th smallest element in the array
  */
-int rand_selection(int *A, const int i, const int n)
+int rand_selection(int *A, const int i, const int n, bool worst_case)
 {
     // Error case: just return -1
     if (n <= 0 || i < 0)
@@ -25,7 +25,7 @@ int rand_selection(int *A, const int i, const int n)
             return -1;
     }
 
-    int pivot = A[rand() % n];
+    int pivot = worst_case ? A[0] : A[rand() % n];
 
     // Partition the array around the random number we choose,
     // and get the position of the pivot
@@ -36,7 +36,7 @@ int rand_selection(int *A, const int i, const int n)
     if (i == k)
         return A[k];
     else if (i < k)
-        return rand_selection(A, i, k);
+        return rand_selection(A, i, k, worst_case);
     else
-        return rand_selection(A + k + 1, i - k - 1, n - k - 1);
+        return rand_selection(A + k + 1, i - k - 1, n - k - 1, worst_case);
 }
