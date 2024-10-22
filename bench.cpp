@@ -6,7 +6,6 @@
 
 #define MAX_ELEMENTS 1 << 18
 #define MIN_ELEMENTS 1 << 10
-#define MAX_NUMBER INT_MAX
 
 FILE *r = fopen("/dev/urandom", "r");
 

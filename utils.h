@@ -1,7 +1,8 @@
-#ifndef   UTILS_H
-#define   UTILS_H
+#ifndef UTILS_H
+#define UTILS_H
 
 #include <stdlib.h>
+#define RECURSION_LIMIT 10
 
 /**
  * Compares two int_ptr based on their value
@@ -27,11 +28,11 @@ static int compare_int(const void *a, const void *b)
 
 /**
  * Naive implementation of the selection algorithm using qsort
- * 
+ *
  * @param A: array of int_ptr
  * @param i: number of values lower than the element to find
  * @param n: number of elements in the array
- * 
+ *
  * @return the i-th smallest element in the array
  */
 static inline int qsort_selection(int *A, const int i, const int n)
